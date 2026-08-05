@@ -62,8 +62,6 @@ I gained knowledge of:
 
 Understanding packet-level communication is an important foundation for areas such as penetration testing, vulnerability assessment, and network defense.
 
----
-
 ## Linux and Security Environment Experience
 
 I developed and tested this project in a Kali Linux environment using VirtualBox.
