@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/b6181a92-4426-43b8-8ce0-c2e932ba9aac
+
 # The Project Purpose
 
 The purpose of this project was to design and develop a custom **network discovery scanner** using Python and the Scapy framework to understand how network reconnaissance tools operate internally.
