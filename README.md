@@ -1,7 +1,4 @@
 
-
-https://github.com/user-attachments/assets/b6181a92-4426-43b8-8ce0-c2e932ba9aac
-
 # The Project Purpose
 
 The purpose of this project was to design and develop a custom **network discovery scanner** using Python and the Scapy framework to understand how network reconnaissance tools operate internally.
@@ -21,6 +18,17 @@ This project helped develop a stronger understanding of:
 
 The scanner was developed and tested in a controlled Kali Linux and VirtualBox laboratory environment to safely analyze network behavior without affecting unauthorized systems.
 
+# How to Run the Program
+
+Commands:
+1) IP addr
+2) sudo python3 network_scanner.py -t
+3) cat network_scan.csv
+4) cat network_scan.json
+
+https://github.com/user-attachments/assets/b6181a92-4426-43b8-8ce0-c2e932ba9aac
+
+
 # What I Achieved...
 
 Through this project, I successfully designed and implemented a functional **ARP-based network scanner** that can discover active devices within a local network.
@@ -29,7 +37,7 @@ Through this project, I successfully designed and implemented a functional **ARP
 
 I learned how to perform host discovery by creating ARP requests and analyzing ARP responses.
 
-The scanner is able to:
+The scanner can:
 
 - Generate ARP request packets targeting a specific network range.
 - Broadcast packets across the local network.
