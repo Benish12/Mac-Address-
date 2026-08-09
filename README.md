@@ -100,9 +100,6 @@ Check the Linux networking utility:
 ```bash
 ip --version
 ```
-
----
-
 # Usage
 
 ## 1. Find the Network Interface
