@@ -1,121 +1,330 @@
+# MAC Address Management & Audit Tool
 
-# The Project Purpose
+## Overview
 
-The purpose of this project was to design and develop a custom **network discovery scanner** using Python and the Scapy framework to understand how network reconnaissance tools operate internally.
+This project is a Python-based Linux tool for managing and auditing MAC addresses on network interfaces.
 
-Many network security tools automatically discover devices connected to a network, but this project focuses on understanding the underlying process instead of only using existing solutions. By building the scanner from scratch, I gained practical knowledge of how devices communicate through the **ARP (Address Resolution Protocol)** and how security professionals identify active systems during network assessments.
+The tool can detect the current MAC address, validate a new MAC address, back up the original address, change the MAC address, verify the change, restore the original address, and record the activity in an audit log.
 
-The project was created to explore the relationship between Python programming and cybersecurity by automating network discovery tasks. It demonstrates how Python can be used to interact directly with network protocols, create custom packets, analyze responses, and collect important network information.
+I built this project to practice Python, Linux networking, command-line tools, and basic security auditing.
 
-This project helped develop a stronger understanding of:
+## Features
 
-- How ARP requests and responses allow devices to communicate within a local network.
-- How network scanning tools discover active hosts.
-- How packets are created, transmitted, and analyzed at the network level.
-- How cybersecurity professionals perform network reconnaissance during security assessments.
-- How Python can automate repetitive security tasks.
-- How Linux environments are used for cybersecurity development and testing.
+* Detect the current MAC address
+* Validate MAC address format
+* Back up the original MAC address
+* Change the MAC address
+* Verify the MAC address after the change
+* Restore the original MAC address
+* Create an audit log of MAC address changes
+* Use command-line arguments for different operations
 
-The scanner was developed and tested in a controlled Kali Linux and VirtualBox laboratory environment to safely analyze network behavior without affecting unauthorized systems.
+## Technologies Used
 
-# How to Run the Program
-
-Commands:
-1) IP addr
-2) sudo python3 network_scanner.py -t
-3) cat network_scan.csv
-4) cat network_scan.json
-
-https://github.com/user-attachments/assets/b6181a92-4426-43b8-8ce0-c2e932ba9aac
+* Python 3
+* Linux
+* Bash
+* Linux `ip` networking utility
+* Regular Expressions
+* JSON
 
 
-# What I Achieved...
+## Python Modules
 
-Through this project, I successfully designed and implemented a functional **ARP-based network scanner** that can discover active devices within a local network.
+The project uses Python's standard library:
 
-## Network Discovery Implementation
+* `subprocess`
+* `argparse`
+* `re`
+* `datetime`
+* `json`
+* `os`
 
-I learned how to perform host discovery by creating ARP requests and analyzing ARP responses.
+No external Python packages are required.
 
-The scanner can:
+## Project Structure
 
-- Generate ARP request packets targeting a specific network range.
-- Broadcast packets across the local network.
-- Receive responses from active devices.
-- Extract device information from returned packets.
-- Display discovered hosts with their corresponding IP and MAC addresses.
+```text
+MAC address changer/
+│
+├── mac_changer.py
+├── README.md
+└── .gitignore
+```
 
-This provided hands-on experience with how network discovery tools identify devices before performing security assessments.
+The following files are generated when the program runs and are excluded from GitHub:
 
-## Python Cybersecurity Automation
+```text
+mac_backup.json
+mac_change.log
+__pycache__/
+```
 
-I strengthened my Python programming skills by developing an automated security tool instead of manually performing network discovery.
+## How It Works
 
-I implemented:
+The program follows this process:
 
-- Python scripting for network operations.
-- Integration with the Scapy framework.
-- Command-line argument handling using `argparse`.
-- Packet creation and response processing.
-- Data extraction and formatted output generation.
+```text
+Identify Interface
+       ↓
+Read Current MAC
+       ↓
+Validate New MAC
+       ↓
+Back Up Original MAC
+       ↓
+Change MAC Address
+       ↓
+Verify Change
+       ↓
+Write Audit Log
+```
 
-This improved my ability to write Python scripts for cybersecurity tasks and automate network-related processes.
-## Packet-Level Networking Experience
+The restore option uses the backup file to return the interface to its original MAC address.
 
-This project provided practical experience with low-level network communication.
+## Requirements
 
-I gained knowledge of:
+* Linux
+* Python 3
+* Network interface
+* `sudo` privileges
 
-- Ethernet and ARP packet structures.
-- How devices communicate within a LAN.
-- How packets are sent and received.
-- How network responses reveal device information.
-- How packet manipulation frameworks can be used for security testing.
+Check that Python is installed:
 
-Understanding packet-level communication is an important foundation for areas such as penetration testing, vulnerability assessment, and network defense.
+```bash
+python3 --version
+```
 
-## Linux and Security Environment Experience
+Check the Linux networking utility:
 
-I developed and tested this project in a Kali Linux environment using VirtualBox.
+```bash
+ip --version
+```
 
-Through this process, I gained experience with:
+---
 
-- Linux command-line operations.
-- Installing and managing Python security libraries.
-- Running scripts with appropriate permissions.
-- Testing cybersecurity tools in isolated virtual environments.
-- Using Linux as a platform for security research and development.
-# Key Skills Developed
+# Usage
 
-## Technical Skills
+## 1. Find the Network Interface
 
-- Python Programming
-- Scapy Framework
-- ARP Protocol
-- Packet Manipulation
-- Network Reconnaissance
-- IP and MAC Address Analysis
-- Linux Administration
-- Command-Line Tools
-- Git/GitHub
-## Cybersecurity Knowledge
-This project improved my understanding of:
+Run:
 
-- Network discovery techniques
-- Host enumeration
-- Security assessment workflows
-- Packet-based communication
-- Cybersecurity automation
-- Ethical security testing practices
-# Overall Project Outcome
+```bash
+ip link
+```
 
-By completing this project, I developed a stronger foundation in cybersecurity engineering by combining programming, networking, and security concepts into a working tool.
+Example:
 
-The experience gained from this project can be applied to more advanced cybersecurity projects such as:
+```text
+2: eth0:
+```
 
-- Vulnerability scanners
-- Network monitoring systems
-- Intrusion detection tools
-- Security assessment automation tools
+In this example, the interface is `eth0`.
 
-This project demonstrates my ability to understand security concepts, write practical Python solutions, and build cybersecurity tools from the ground up.
+Your interface may have a different name, such as `enp0s3` or `wlan0`.
+
+## 2. Check the Current MAC Address
+
+Run:
+
+```bash
+ip link show eth0
+```
+
+Replace `eth0` with your actual interface.
+
+The MAC address appears after:
+
+```text
+link/ether
+
+## 3. Check the Python File
+
+Before running the program, check for Python syntax or indentation errors:
+
+```bash
+python3 -m py_compile mac_changer.py
+```
+
+If there is no output, the file passed the syntax check.
+
+## 4. View the Help Menu
+
+Run:
+
+```bash
+python3 mac_changer.py --help
+```
+
+Available options:
+
+```text
+-i, --interface    Network interface
+-m, --mac          New MAC address
+--restore          Restore original MAC address
+
+## 5. Change the MAC Address
+
+Run:
+
+```bash
+sudo python3 mac_changer.py -i eth0 -m 00:11:22:33:44:55
+```
+
+Replace `eth0` with your network interface.
+
+The program first detects and backs up the current MAC address before attempting the change.
+
+Example output:
+
+```text
+[+] Current MAC: XX:XX:XX:XX:XX:XX
+[+] Original MAC address backed up
+[+] Changing eth0 MAC address to 00:11:22:33:44:55
+[+] MAC address changed successfully
+```
+## 6. Verify the Change
+
+After the program reports a successful change, verify it manually:
+
+```bash
+ip link show eth0
+```
+
+The output should show the new MAC address.
+
+## 7. Check the Backup
+
+The program creates a backup file named:
+
+```text
+mac_backup.json
+```
+
+View it with:
+
+```bash
+cat mac_backup.json
+```
+
+The file contains the original interface and MAC address information needed for restoration.
+## 8. Check the Audit Log
+
+The program creates:
+
+```text
+mac_change.log
+```
+
+View the log with:
+
+```bash
+cat mac_change.log
+```
+
+The log records:
+
+* Time of the operation
+* Network interface
+* Original MAC address
+* New MAC address
+* Operation status
+
+Example:
+
+```text
+----------------------------
+Time: 2026-08-09 18:00:00
+Interface: eth0
+Old MAC: XX:XX:XX:XX:XX:XX
+New MAC: XX:XX:XX:XX:XX:XX
+Status: SUCCESS
+```
+
+---
+
+## 9. Restore the Original MAC Address
+
+To restore the original MAC address saved in the backup file:
+
+```bash
+sudo python3 mac_changer.py --restore
+```
+
+The program reads the original MAC address from `mac_backup.json` and restores it.
+
+## 10. Verify the Restoration
+
+Run:
+
+```bash
+ip link show eth0
+```
+
+The original MAC address should be displayed again.
+
+# Testing & Results
+
+The tool was tested through the complete MAC address management workflow.
+
+| Test                     | Result |
+| ------------------------ | ------ |
+| Python syntax validation | Passed |
+| MAC address detection    | Passed |
+| MAC address validation   | Passed |
+| Original MAC backup      | Passed |
+| MAC address modification | Passed |
+| MAC change verification  | Passed |
+| Security audit logging   | Passed |
+| MAC address restoration  | Passed |
+| Restoration verification | Passed |
+
+The complete workflow was successfully tested from **backup → change → verification → logging → restoration**.
+
+# Challenges and Technical Learning
+
+During development, I worked through several issues involving:
+
+* Python indentation and syntax
+* Linux file and directory management
+* Identifying network interfaces
+* Linux administrative permissions
+* Using the `ip` networking utility
+* Verifying MAC address changes
+* WSL networking limitations
+* Creating and using JSON backups
+* Implementing audit logging
+
+These challenges provided hands-on experience with Linux networking and Python-based system administration.
+
+# Security Considerations
+
+MAC address changes can affect network connectivity and network access controls.
+
+This tool is intended for:
+
+* Cybersecurity labs
+* Personal systems
+* Controlled virtual machines
+* Authorized security testing
+* Linux networking practice
+
+Only use the tool on systems and networks where you have permission to make network configuration changes.
+
+# Future Improvements
+
+Possible future improvements include:
+
+* Add a `--show` option
+* Add automatic privilege checking
+* Improve error handling
+* Support multiple network interfaces
+* Add unit tests
+* Add structured JSON audit reports
+* Add a dry-run option
+* Improve rollback and recovery handling
+
+# Skills Demonstrated
+
+**Python • Linux • Bash • Networking • MAC Addresses • Regular Expressions • JSON • File I/O • Subprocess Management • CLI Development • Security Auditing • System Administration
+
