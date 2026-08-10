@@ -240,9 +240,6 @@ Old MAC: XX:XX:XX:XX:XX:XX
 New MAC: XX:XX:XX:XX:XX:XX
 Status: SUCCESS
 ```
-
----
-
 ## 9. Restore the Original MAC Address
 
 To restore the original MAC address saved in the backup file:
